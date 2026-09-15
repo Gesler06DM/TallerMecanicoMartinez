@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS taller_mecanico_db;
+
+USE taller_mecanico_db;
+
+CREATE TABLE IF NOT EXISTS citas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente VARCHAR(100) NOT NULL,
+    fecha_hora DATETIME NOT NULL,
+    servicio VARCHAR(150) NOT NULL,
+    duracion_minutos INT NOT NULL,
+    estado VARCHAR(12) NOT NULL DEFAULT 'pendiente'
+);
