@@ -53,4 +53,13 @@ public class Cita {
     public String getEstado() {
         return estado;
     }
+    @Override
+    public String toString() {
+        return "Cita [id=" + id
+                + ", cliente=" + cliente
+                + ", fechaHora=" + fechaHora
+                + ", servicio=" + servicio
+                + ", duracionMinutos=" + duracionMinutos
+                + ", estado=" + estado + "]";
+    }
 }

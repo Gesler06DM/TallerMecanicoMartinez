@@ -13,11 +13,11 @@ public class CitaDao {
 
     private static final String URL =
 
-            "jdbc:mysql://localhost:3306/taller_mecanico_db";
+    		"jdbc:mariadb://localhost:3306/taller_mecanico_db";
 
     private static final String USUARIO = "root";
 
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "Lucio0806";
 
     private Connection conectar() throws SQLException {
 
