@@ -385,9 +385,41 @@ public class VentanaPrincipal extends JFrame {
                 int duracion = Integer.parseInt(txtDuracion.getText().trim());
                 String estado = txtEstado.getText().trim();
 
+                if (cliente.isEmpty() || servicio.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El cliente y el servicio no pueden estar vacíos"
+                    );
+                    return;
+                }
+
+                if (duracion <= 0) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "La duración debe ser mayor a 0 minutos"
+                    );
+                    return;
+                }
+
+                if (!estado.equalsIgnoreCase("pendiente")
+                        && !estado.equalsIgnoreCase("confirmada")
+                        && !estado.equalsIgnoreCase("cancelada")) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El estado debe ser: pendiente, confirmada o cancelada"
+                    );
+                    return;
+                }
                 LocalDateTime fechaHora =
                         LocalDateTime.parse(fecha + "T" + hora);
 
+                if (fechaHora.isBefore(LocalDateTime.now())) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "La fecha y hora de la cita no pueden estar en el pasado"
+                    );
+                    return;
+                }
                 Cita cita = new Cita(
                         cliente,
                         fechaHora,
@@ -442,6 +474,31 @@ public class VentanaPrincipal extends JFrame {
                     txtDuracion.getText().trim()
                 );
                 String estado = txtEstado.getText().trim();
+                if (cliente.isEmpty() || servicio.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El cliente y el servicio no pueden estar vacíos"
+                    );
+                    return;
+                }
+
+                if (duracion <= 0) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "La duración debe ser mayor a 0 minutos"
+                    );
+                    return;
+                }
+
+                if (!estado.equalsIgnoreCase("pendiente")
+                        && !estado.equalsIgnoreCase("confirmada")
+                        && !estado.equalsIgnoreCase("cancelada")) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El estado debe ser: pendiente, confirmada o cancelada"
+                    );
+                    return;
+                }
 
                 LocalDateTime fechaHora =
                     LocalDateTime.parse(fecha + "T" + hora);
