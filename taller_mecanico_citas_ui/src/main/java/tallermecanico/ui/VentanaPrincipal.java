@@ -5,9 +5,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.time.LocalDateTime;
+import tallermecanico.modelo.Cita;
+import tallermecanico.dao.CitaDao;
 
 public class VentanaPrincipal extends JFrame {
-
+	
+	private CitaDao citaDao = new CitaDao();
     private JTable tablaCitas;
     private DefaultTableModel modeloTabla;
 
@@ -372,7 +376,154 @@ public class VentanaPrincipal extends JFrame {
         // =========================
         // EVENTOS
         // =========================
+        btnGuardar.addActionListener(e -> {
+            try {
+                String cliente = txtCliente.getText().trim();
+                String fecha = txtFecha.getText().trim();
+                String hora = txtHora.getText().trim();
+                String servicio = txtServicio.getText().trim();
+                int duracion = Integer.parseInt(txtDuracion.getText().trim());
+                String estado = txtEstado.getText().trim();
 
+                LocalDateTime fechaHora =
+                        LocalDateTime.parse(fecha + "T" + hora);
+
+                Cita cita = new Cita(
+                        cliente,
+                        fechaHora,
+                        servicio,
+                        duracion,
+                        estado
+                );
+
+                if (citaDao.guardar(cita)) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Cita guardada correctamente"
+                    );
+
+                    limpiarCampos();
+                    cargarCitas();
+                } else {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "No se pudo guardar la cita"
+                    );
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Error al guardar: " + ex.getMessage()
+                );
+            }
+        });
+        btnActualizar.addActionListener(e -> {
+            try {
+                int fila = tablaCitas.getSelectedRow();
+
+                if (fila < 0) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Seleccione una cita para actualizar"
+                    );
+                    return;
+                }
+
+                int id = Integer.parseInt(
+                    modeloTabla.getValueAt(fila, 0).toString()
+                );
+
+                String cliente = txtCliente.getText().trim();
+                String fecha = txtFecha.getText().trim();
+                String hora = txtHora.getText().trim();
+                String servicio = txtServicio.getText().trim();
+                int duracion = Integer.parseInt(
+                    txtDuracion.getText().trim()
+                );
+                String estado = txtEstado.getText().trim();
+
+                LocalDateTime fechaHora =
+                    LocalDateTime.parse(fecha + "T" + hora);
+
+                Cita cita = new Cita(
+                    id,
+                    cliente,
+                    fechaHora,
+                    servicio,
+                    duracion,
+                    estado
+                );
+
+                if (citaDao.actualizar(cita)) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Cita actualizada correctamente"
+                    );
+
+                    limpiarCampos();
+                    cargarCitas();
+                } else {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "No se pudo actualizar la cita"
+                    );
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Error al actualizar: " + ex.getMessage()
+                );
+            }
+        });
+        btnEliminar.addActionListener(e -> {
+            try {
+                int fila = tablaCitas.getSelectedRow();
+
+                if (fila < 0) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Seleccione una cita para eliminar"
+                    );
+                    return;
+                }
+
+                int id = Integer.parseInt(
+                    modeloTabla.getValueAt(fila, 0).toString()
+                );
+
+                int respuesta = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Está seguro de eliminar esta cita?",
+                    "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    if (citaDao.eliminar(id)) {
+                        JOptionPane.showMessageDialog(
+                            this,
+                            "Cita eliminada correctamente"
+                        );
+
+                        limpiarCampos();
+                        cargarCitas();
+                    } else {
+                        JOptionPane.showMessageDialog(
+                            this,
+                            "No se pudo eliminar la cita"
+                        );
+                    }
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Error al eliminar: " + ex.getMessage()
+                );
+            }
+        }); 
         btnLimpiar.addActionListener(e -> limpiarCampos());
 
         tablaCitas.getSelectionModel()
@@ -418,7 +569,9 @@ public class VentanaPrincipal extends JFrame {
                 }
             }
         });
+        cargarCitas();
     }
+    
 
     // =========================
     // CREAR CAMPOS
@@ -531,5 +684,27 @@ public class VentanaPrincipal extends JFrame {
         tablaCitas.clearSelection();
 
         txtCliente.requestFocus();
+    }
+    private void cargarCitas() {
+        try {
+            modeloTabla.setRowCount(0);
+
+            for (Cita cita : citaDao.listarTodas()) {
+                modeloTabla.addRow(new Object[] {
+                    cita.getId(),
+                    cita.getCliente(),
+                    cita.getFechaHora(),
+                    cita.getServicio(),
+                    cita.getDuracionMinutos(),
+                    cita.getEstado()
+                });
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Error al cargar las citas: " + ex.getMessage()
+            );
+        }
     }
 }
