@@ -1,3 +1,26 @@
+-- =====================================================
+-- BASE DE DATOS: TALLER MECANICO - SISTEMA DE CITAS
+-- =====================================================
+-- Para este proyecto decidí guardar la fecha y la hora
+-- en una sola columna de tipo DATETIME, ya que ambas
+-- pertenecen a la programación de una misma cita.
+--
+-- El nombre del cliente se almacena en VARCHAR(100)
+-- y el servicio en VARCHAR(150), porque son datos de
+-- texto y el servicio puede necesitar una descripción
+-- un poco más extensa.
+--
+-- La duración se almacena como INT porque representa
+-- una cantidad de minutos.
+--
+-- Para el estado utilicé VARCHAR(12). Los valores
+-- permitidos (pendiente, confirmada y cancelada) son
+-- validados desde Java. Además, el estado por defecto
+-- de una cita nueva es "pendiente".
+--
+-- El id utiliza AUTO_INCREMENT para que cada cita tenga
+-- un identificador único generado automáticamente.
+-- =====================================================
 CREATE DATABASE IF NOT EXISTS taller_mecanico_db;
 
 USE taller_mecanico_db;

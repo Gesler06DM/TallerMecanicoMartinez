@@ -134,6 +134,7 @@ public class VentanaPrincipal extends JFrame {
         txtServicio = crearCampo();
         txtDuracion = crearCampo();
         txtEstado = crearCampo();
+        txtEstado.setText("pendiente");
 
         agregarCampo(
             formulario,
@@ -382,15 +383,24 @@ public class VentanaPrincipal extends JFrame {
                 String fecha = txtFecha.getText().trim();
                 String hora = txtHora.getText().trim();
                 String servicio = txtServicio.getText().trim();
-                int duracion = Integer.parseInt(txtDuracion.getText().trim());
+                String duracionTexto = txtDuracion.getText().trim();
                 String estado = txtEstado.getText().trim();
 
-                if (cliente.isEmpty() || servicio.isEmpty()) {
+                if (cliente.isEmpty() || fecha.isEmpty() || hora.isEmpty()
+                        || servicio.isEmpty() || duracionTexto.isEmpty()) {
                     JOptionPane.showMessageDialog(
                         this,
-                        "El cliente y el servicio no pueden estar vacíos"
+                        "Completa todos los campos es obligatorio"
                     );
                     return;
+                }
+                int duracion; 
+                try {
+                	duracion=Integer.parseInt(duracionTexto);
+                }catch (NumberFormatException ex) {
+                	JOptionPane.showMessageDialog(
+                			this, "La duracion debe ser un numero entero");
+                	return;
                 }
 
                 if (duracion <= 0) {
@@ -470,22 +480,44 @@ public class VentanaPrincipal extends JFrame {
                 String fecha = txtFecha.getText().trim();
                 String hora = txtHora.getText().trim();
                 String servicio = txtServicio.getText().trim();
-                int duracion = Integer.parseInt(
-                    txtDuracion.getText().trim()
-                );
+                String duracionTexto = txtDuracion.getText().trim();
                 String estado = txtEstado.getText().trim();
-                if (cliente.isEmpty() || servicio.isEmpty()) {
+                if (cliente.isEmpty() || fecha.isEmpty() || hora.isEmpty()
+                        || servicio.isEmpty() || duracionTexto.isEmpty()) {
                     JOptionPane.showMessageDialog(
                         this,
-                        "El cliente y el servicio no pueden estar vacíos"
+                        "Completa todos los campos obligatorios"
                     );
                     return;
                 }
 
+                int duracion;
+
+                try {
+                    duracion = Integer.parseInt(duracionTexto);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "La duración debe ser un número entero"
+                    );
+                    return;
+                }
                 if (duracion <= 0) {
                     JOptionPane.showMessageDialog(
                         this,
                         "La duración debe ser mayor a 0 minutos"
+                    );
+                    return;
+                }
+
+                LocalDateTime fechaHora;
+
+                try {
+                    fechaHora = LocalDateTime.parse(fecha + "T" + hora);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Fecha u hora incorrecta. Use AAAA-MM-DD y HH:MM"
                     );
                     return;
                 }
@@ -500,8 +532,13 @@ public class VentanaPrincipal extends JFrame {
                     return;
                 }
 
-                LocalDateTime fechaHora =
-                    LocalDateTime.parse(fecha + "T" + hora);
+                if (fechaHora.isBefore(LocalDateTime.now())) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "La fecha y hora de la cita no pueden estar en el pasado"
+                    );
+                    return;
+                }
 
                 Cita cita = new Cita(
                     id,
@@ -736,7 +773,7 @@ public class VentanaPrincipal extends JFrame {
         txtHora.setText("");
         txtServicio.setText("");
         txtDuracion.setText("");
-        txtEstado.setText("");
+        txtEstado.setText("pendiente");
 
         tablaCitas.clearSelection();
 
