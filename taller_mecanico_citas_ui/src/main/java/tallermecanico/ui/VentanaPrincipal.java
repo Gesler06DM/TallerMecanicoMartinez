@@ -611,7 +611,7 @@ public class VentanaPrincipal extends JFrame {
                         && !estado.equalsIgnoreCase("cancelada")) {
                     JOptionPane.showMessageDialog(
                         this,
-                        "El estado debe ser: pendiente, confirmada o cancelada"
+                        "El estado debe ser: pendiente, completado o cancelada"
                     );
                     return;
                 }
