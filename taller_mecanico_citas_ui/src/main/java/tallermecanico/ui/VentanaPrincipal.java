@@ -387,11 +387,58 @@ public class VentanaPrincipal extends JFrame {
                 String estado = txtEstado.getText().trim();
 
                 if (cliente.isEmpty() || fecha.isEmpty() || hora.isEmpty()
+                        || servicio.isEmpty() || duracionTexto.isEmpty()
+                        || estado.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Todos los campos son obligatorios"
+                    );
+                    return;
+                }
+                if (!servicio.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El servicio solo puede contener letras"
+                    );
+                    txtServicio.requestFocus();
+                    return;
+                }
+
+                if (!servicio.equalsIgnoreCase("Cambio de aceite")
+                        && !servicio.equalsIgnoreCase("Revision de frenos")
+                        && !servicio.equalsIgnoreCase("Revisión de frenos")
+                        && !servicio.equalsIgnoreCase("Cambio de pastillas")
+                        && !servicio.equalsIgnoreCase("Revision general")
+                        && !servicio.equalsIgnoreCase("Revisión general")) {
+
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Servicio no disponible.\n"
+                        + "Servicios disponibles:\n"
+                        + "Cambio de aceite\n"
+                        + "Revisión de frenos\n"
+                        + "Cambio de pastillas\n"
+                        + "Revisión general"
+                    );
+                    txtServicio.requestFocus();
+                    return;
+                }
+
+                if (cliente.isEmpty() || fecha.isEmpty() || hora.isEmpty()
                         || servicio.isEmpty() || duracionTexto.isEmpty()) {
                     JOptionPane.showMessageDialog(
                         this,
                         "Completa todos los campos es obligatorio"
                     );
+                    return;
+                }
+                if (!cliente.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El nombre del cliente solo puede contener letras"
+                    );
+                    txtCliente.requestFocus();
                     return;
                 }
                 int duracion; 
@@ -412,11 +459,11 @@ public class VentanaPrincipal extends JFrame {
                 }
 
                 if (!estado.equalsIgnoreCase("pendiente")
-                        && !estado.equalsIgnoreCase("confirmada")
+                        && !estado.equalsIgnoreCase("completado")
                         && !estado.equalsIgnoreCase("cancelada")) {
                     JOptionPane.showMessageDialog(
                         this,
-                        "El estado debe ser: pendiente, confirmada o cancelada"
+                        "El estado debe ser: pendiente, completado o cancelada"
                     );
                     return;
                 }
@@ -456,7 +503,8 @@ public class VentanaPrincipal extends JFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
                         this,
-                        "Error al guardar: " + ex.getMessage()
+                        "Formato de fecha u hora incorrecta"
+                        + "Use fecha AÑO-MES-DIA: " 
                 );
             }
         });
@@ -477,9 +525,45 @@ public class VentanaPrincipal extends JFrame {
                 );
 
                 String cliente = txtCliente.getText().trim();
+                if (!cliente.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El nombre del cliente solo puede contener letras"
+                    );
+                    txtCliente.requestFocus();
+                    return;
+                }
                 String fecha = txtFecha.getText().trim();
                 String hora = txtHora.getText().trim();
                 String servicio = txtServicio.getText().trim();
+                if (!servicio.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "El servicio solo puede contener letras"
+                    );
+                    txtServicio.requestFocus();
+                    return;
+                }
+
+                if (!servicio.equalsIgnoreCase("Cambio de aceite")
+                        && !servicio.equalsIgnoreCase("Revision de frenos")
+                        && !servicio.equalsIgnoreCase("Revisión de frenos")
+                        && !servicio.equalsIgnoreCase("Cambio de pastillas")
+                        && !servicio.equalsIgnoreCase("Revision general")
+                        && !servicio.equalsIgnoreCase("Revisión general")) {
+
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "Servicio no disponible.\n"
+                        + "Servicios disponibles:\n"
+                        + "- Cambio de aceite\n"
+                        + "- Revisión de frenos\n"
+                        + "- Cambio de pastillas\n"
+                        + "- Revisión general"
+                    );
+                    txtServicio.requestFocus();
+                    return;
+                }
                 String duracionTexto = txtDuracion.getText().trim();
                 String estado = txtEstado.getText().trim();
                 if (cliente.isEmpty() || fecha.isEmpty() || hora.isEmpty()
@@ -523,7 +607,7 @@ public class VentanaPrincipal extends JFrame {
                 }
 
                 if (!estado.equalsIgnoreCase("pendiente")
-                        && !estado.equalsIgnoreCase("confirmada")
+                        && !estado.equalsIgnoreCase("completado")
                         && !estado.equalsIgnoreCase("cancelada")) {
                     JOptionPane.showMessageDialog(
                         this,
