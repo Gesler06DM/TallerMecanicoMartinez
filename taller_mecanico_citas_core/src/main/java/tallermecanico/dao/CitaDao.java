@@ -101,7 +101,8 @@ public class CitaDao {
                             rs.getTimestamp("fecha_hora").toLocalDateTime(),
                             rs.getString("servicio"),
                             rs.getInt("duracion_minutos"),
-                            rs.getString("estado")
+                            rs.getString("estado"),
+                            rs.getBoolean("primera_visita")
                     );
                 }
             }
@@ -112,7 +113,7 @@ public class CitaDao {
     public boolean actualizar(Cita cita) throws SQLException {
 
         String sql = "UPDATE citas SET cliente = ?, fecha_hora = ?, "
-                + "servicio = ?, duracion_minutos = ?, estado = ? "
+                + "servicio = ?, duracion_minutos = ?, estado = ?, primera_visita = ? "
                 + "WHERE id = ?";
 
         try (Connection conexion = conectar();
@@ -125,6 +126,7 @@ public class CitaDao {
             ps.setInt(4, cita.getDuracionMinutos());
             ps.setString(5, cita.getEstado());
             ps.setInt(6, cita.getId());
+            ps.setInt(7, cita.getId());
 
             return ps.executeUpdate() > 0;
         }
