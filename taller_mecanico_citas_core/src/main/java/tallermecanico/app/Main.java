@@ -58,13 +58,16 @@ public class Main {
 
                         System.out.print("Estado: ");
                         String estado = scanner.nextLine();
+                        System.out.print("¿Es primera visita? (s/n): ");
+                        boolean primeraVisita = scanner.nextLine().equalsIgnoreCase("s");
 
                         Cita nuevaCita = new Cita(
                                 cliente,
                                 LocalDateTime.of(anio, mes, dia, hora, minutos),
                                 servicio,
                                 duracion,
-                                estado
+                                estado,
+                                primeraVisita
                         );
 
                         if (dao.guardar(nuevaCita)) {
@@ -131,12 +134,15 @@ public class Main {
                         System.out.print("Nuevo servicio: ");
                         String nuevoServicio = scanner.nextLine();
 
-                        System.out.print("Nueva duracion en minutos: ");
+                        System.out.print("Nueva duración: ");
                         int nuevaDuracion = Integer.parseInt(scanner.nextLine());
 
                         System.out.print("Nuevo estado: ");
                         String nuevoEstado = scanner.nextLine();
 
+                        System.out.print("¿Es primera visita? (s/n): ");
+                        boolean nuevaPrimeraVisita =
+                                scanner.nextLine().equalsIgnoreCase("s");
                         Cita citaActualizada = new Cita(
                                 idActualizar,
                                 nuevoCliente,
@@ -149,7 +155,8 @@ public class Main {
                                 ),
                                 nuevoServicio,
                                 nuevaDuracion,
-                                nuevoEstado
+                                nuevoEstado,
+                                nuevaPrimeraVisita
                         );
 
                         if (dao.actualizar(citaActualizada)) {
@@ -157,8 +164,8 @@ public class Main {
                         } else {
                             System.out.println("No se pudo actualizar la cita");
                         }
-                        break;
 
+                        break;
                     case 5:
                         System.out.println("\n=== ELIMINAR CITA ===");
 

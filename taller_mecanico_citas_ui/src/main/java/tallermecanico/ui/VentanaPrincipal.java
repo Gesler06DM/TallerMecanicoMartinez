@@ -21,11 +21,13 @@ public class VentanaPrincipal extends JFrame {
     private JTextField txtServicio;
     private JTextField txtDuracion;
     private JTextField txtEstado;
+    private JCheckBox chkPrimeraVisita;
 
     private JButton btnGuardar;
     private JButton btnActualizar;
     private JButton btnEliminar;
     private JButton btnLimpiar;
+    
 
     // COLORES
     private final Color AZUL = new Color(41, 98, 160);
@@ -134,6 +136,7 @@ public class VentanaPrincipal extends JFrame {
         txtServicio = crearCampo();
         txtDuracion = crearCampo();
         txtEstado = crearCampo();
+        chkPrimeraVisita = new JCheckBox("Primera visita");
         txtEstado.setText("pendiente");
 
         agregarCampo(
@@ -183,9 +186,17 @@ public class VentanaPrincipal extends JFrame {
             "Estado:",
             txtEstado
         );
+        chkPrimeraVisita = new JCheckBox("Primera visita");
+      
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        formulario.add(new JLabel("Primera visita:"), gbc);
 
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        formulario.add(chkPrimeraVisita, gbc);
         panelIzquierdo.add(formulario, BorderLayout.CENTER);
-
+       
         // =========================
         // BOTONES
         // =========================
@@ -272,7 +283,8 @@ public class VentanaPrincipal extends JFrame {
             "Fecha y hora",
             "Servicio",
             "Duración",
-            "Estado"
+            "Estado",
+            "Primera visita"
         };
 
         modeloTabla = new DefaultTableModel(
@@ -482,7 +494,8 @@ public class VentanaPrincipal extends JFrame {
                         fechaHora,
                         servicio,
                         duracion,
-                        estado
+                        estado,
+                        chkPrimeraVisita.isSelected()
                 );
 
                 if (citaDao.guardar(cita)) {
@@ -630,7 +643,8 @@ public class VentanaPrincipal extends JFrame {
                     fechaHora,
                     servicio,
                     duracion,
-                    estado
+                    estado,
+                    chkPrimeraVisita.isSelected()
                 );
 
                 if (citaDao.actualizar(cita)) {
@@ -859,6 +873,7 @@ public class VentanaPrincipal extends JFrame {
         txtDuracion.setText("");
         txtEstado.setText("pendiente");
 
+        chkPrimeraVisita.setSelected(false);
         tablaCitas.clearSelection();
 
         txtCliente.requestFocus();
@@ -874,7 +889,8 @@ public class VentanaPrincipal extends JFrame {
                     cita.getFechaHora(),
                     cita.getServicio(),
                     cita.getDuracionMinutos(),
-                    cita.getEstado()
+                    cita.getEstado(),
+                    cita.isPrimeraVisita()
                 });
             }
 
