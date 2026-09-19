@@ -29,10 +29,8 @@ public class CitaDao {
 
         String sql = "INSERT INTO citas "
 
-                + "(cliente, fecha_hora, servicio, duracion_minutos, estado) "
-
-                + "VALUES (?, ?, ?, ?, ?)";
-
++ "(cliente, fecha_hora, servicio, duracion_minutos, estado, primera_visita) "
++ "VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conexion = conectar();
 
              PreparedStatement ps = conexion.prepareStatement(sql)) {
@@ -48,6 +46,8 @@ public class CitaDao {
             ps.setInt(4, cita.getDuracionMinutos());
 
             ps.setString(5, cita.getEstado());
+            
+            ps.setBoolean(6, cita.isPrimeraVisita());
 
             return ps.executeUpdate() > 0;
 
@@ -72,7 +72,8 @@ public class CitaDao {
                         rs.getTimestamp("fecha_hora").toLocalDateTime(),
                         rs.getString("servicio"),
                         rs.getInt("duracion_minutos"),
-                        rs.getString("estado")
+                        rs.getString("estado"),
+                        rs.getBoolean("primera_visita")
                 );
 
                 citas.add(cita);
