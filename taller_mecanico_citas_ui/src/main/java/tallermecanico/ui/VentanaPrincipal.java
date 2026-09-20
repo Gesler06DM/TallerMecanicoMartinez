@@ -738,7 +738,21 @@ public class VentanaPrincipal extends JFrame {
         	                conteoServicios.getOrDefault(servicio, 0) + 1
         	        );
         	    }
+        	    StringBuilder resumen = new StringBuilder("Citas por servicio:\n\n");
 
+        	    for (Map.Entry<String, Integer> entrada : conteoServicios.entrySet()) {
+        	        resumen.append(entrada.getKey())
+        	               .append(": ")
+        	               .append(entrada.getValue())
+        	               .append("\n");
+        	    }
+
+        	    JOptionPane.showMessageDialog(
+        	            this,
+        	            resumen.toString(),
+        	            "Resumen de servicios",
+        	            JOptionPane.INFORMATION_MESSAGE
+        	    );
         	} catch (Exception ex) {
         	    JOptionPane.showMessageDialog(
         	            this,
