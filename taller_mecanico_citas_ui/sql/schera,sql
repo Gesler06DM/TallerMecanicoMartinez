@@ -31,10 +31,6 @@ CREATE TABLE IF NOT EXISTS citas (
     fecha_hora DATETIME NOT NULL,
     servicio VARCHAR(150) NOT NULL,
     duracion_minutos INT NOT NULL,
-    estado VARCHAR(12) NOT NULL DEFAULT 'pendiente'
-    primera_visita
-    duracion_minutos INT NOT NULL,
-
 estado VARCHAR(12) NOT NULL DEFAULT 'pendiente',
 
 primera_visita BOOLEAN NOT NULL DEFAULT FALSE

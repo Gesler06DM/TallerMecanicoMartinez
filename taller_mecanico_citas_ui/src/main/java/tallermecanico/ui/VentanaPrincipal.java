@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import java.time.LocalDateTime;
 import tallermecanico.modelo.Cita;
 import tallermecanico.dao.CitaDao;
+import java.util.Map;
+import java.util.HashMap;
 
 public class VentanaPrincipal extends JFrame {
 	
@@ -27,6 +29,7 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnActualizar;
     private JButton btnEliminar;
     private JButton btnLimpiar;
+    private JButton btnResumen;
     
 
     // COLORES
@@ -229,11 +232,16 @@ public class VentanaPrincipal extends JFrame {
             "Limpiar",
             GRIS
         );
+        btnResumen = crearBoton(
+                "Ver resumen",
+                AZUL_OSCURO
+        );
 
         panelBotones.add(btnGuardar);
         panelBotones.add(btnActualizar);
         panelBotones.add(btnEliminar);
         panelBotones.add(btnLimpiar);
+        panelBotones.add(btnResumen);
 
         panelIzquierdo.add(
             panelBotones,
@@ -716,8 +724,28 @@ public class VentanaPrincipal extends JFrame {
                 );
             }
         }); 
+        
         btnLimpiar.addActionListener(e -> limpiarCampos());
+        btnResumen.addActionListener(e -> {
+     
+        	Map<String, Integer> conteoServicios =new HashMap<>();
+        	try {
+        	    for (Cita cita : citaDao.listarTodas()) {
+        	        String servicio = cita.getServicio();
 
+        	        conteoServicios.put(
+        	                servicio,
+        	                conteoServicios.getOrDefault(servicio, 0) + 1
+        	        );
+        	    }
+
+        	} catch (Exception ex) {
+        	    JOptionPane.showMessageDialog(
+        	            this,
+        	            "Error al generar el resumen: " + ex.getMessage()
+        	    );
+        	}
+    });
         tablaCitas.getSelectionModel()
                   .addListSelectionListener(e -> {
 
